@@ -1,5 +1,6 @@
 <script>
-import { getCurrentInstance, h } from 'vue'
+import { getCurrentInstance } from 'vue'
+import { h } from 'vue/dist/vue.esm-bundler.js'
 
 export default {
   props: {
@@ -7,9 +8,10 @@ export default {
   },
   setup(props) {
     const components = getCurrentInstance()?.appContext?.components ?? {}
-    
+
     Object.keys(components).forEach((key) => {
-      components[key] = components[key].default
+      components[key] = components[key]?.default
+      if (!components[key]) delete components[key]
     })
 
     return () =>
